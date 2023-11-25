@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+   
+  <script src="setting.js"></script>
+  <script src="Cookie.js"></script> 
+  <script src="dateTime.js"></script> 
+  <script src="HTTP2024.js"></script>
+
+ <script>
+  //respiratoryRate.js
+
+  var jsonObj = {
+  "resourceType": "Observation",
+  "id": "example-observation-1",
+  "meta": {
+    "profile": ["http://hl7.org/fhir/StructureDefinition/bone-density"]
+  },
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "789-8",
+        "display": "Erythrocytes [#/volume] in Blood by Automated count"
+      }
+    ],
+    "text": "Red Blood Cell Count"
+  },
+  "subject": {
+    "reference": "Patient/5293",
+    "display":"葉語宸"
+  },
+  "effectiveDateTime": "2023-10-17T08:30:00+00:00",
+  "valueQuantity": {
+    "value": 5.2,
+    "unit": "10^12/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "10^12/L"
+  }
+};	 
+   function postData()
+   { jsonObj.valueQuantity.value = parseFloat(document.getElementById("resRate").value);
+     jsonObj.effectiveDateTime = getFormattedTime();
+     var jsonStr = JSON.stringify(jsonObj);
+    //alert(jsonStr);
+    var apiURL;
+    apiURL = FHIRrootURL  + "Observation";
+    // HTTPPostData( apiURL,jsonStr);
+    sendHttpPost(apiURL, jsonStr, callBack);
+   } 
+   function callBack(ret) {
+        console.log(ret);    
+        //alert(ret);
+        }
+ 
+</script>	
+	
+</head>
+<body style="height: 780px">
+ 
+    <p>請輸入紅血球數量</p>
+   
+     <input id="Button1" onclick="postData()"  type="button" value="postData" /><br/>
+     
+     紅血球數: <input type="text" id="resRate" />  <br/>
+</body>
+</html>
